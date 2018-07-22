@@ -159,8 +159,8 @@ def run_inference_on_image(image):
       score = predictions[node_id]
       resp[human_string] = score
       print('%s (score = %.5f)' % (human_string, score))
-    with open("text.txt") as f:
-        json.dump(resp, f)
+    with open("text.txt","w") as t:
+        json.dump(resp, t)
 
 def maybe_download_and_extract():
   """Download and extract model tar file."""

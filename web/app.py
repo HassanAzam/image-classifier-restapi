@@ -105,7 +105,7 @@ class Classify(Resource):
         resp = {}
         with open("temp.jpg", "wb") as f:
             f.write(r.content)
-            proc = subprocess.Popen('python classify_image.py --model_dir=. --image_file=./temp.jpg')
+            proc = subprocess.Popen('python classify_image.py --model_dir=. --image_file=./temp.jpg',shell=True)
             proc.communicate()[0]
             proc.wait()
             with open("text.txt") as g:
@@ -128,20 +128,10 @@ class Refill(Resource):
         admin_pw = posted_data["admin_pw"]
 
         if not UserExist(username):
-            resp = {
-                "status": 301,
-                "message": "sorry, invalid username"
-            }
-
-            return jsonify(resp)
+            return jsonify(generateResponse(301, "Invalid username"))
         
         if not admin_pw == "password":
-            resp = {
-                "status": 304,
-                "message": "Invalid password"
-            }
-
-            return jsonify(resp)
+            return jsonify(generateResponse(302, "Invalid admin password"))
         
         current_tokens = countTokens(username)
 
@@ -152,15 +142,10 @@ class Refill(Resource):
             }
         )
 
-        resp = {
-            "status": 200,
-            "message": "Refilled successfully"
-        }
-
-        return jsonify(resp)
+        return jsonify(generateResponse(200, "Refilled successfully"))
 
 api.add_resource(Register, "/register")
-api.add_resource(Classify, "/detect")
+api.add_resource(Classify, "/classify")
 api.add_resource(Refill, "/refill")
 
 @app.route('/')
