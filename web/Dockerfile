@@ -1,6 +1,7 @@
-FROM python:2
+FROM python:3.5.2
 WORKDIR /usr/src/app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt ./
+RUN pip install  --upgrade pip
+RUN pip install -r requirements.txt
 COPY . .
-CMD ["python","app.py"]
+CMD [ "python3", "app.py" ]

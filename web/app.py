@@ -60,7 +60,7 @@ def verifyPw(username, pw):
          {"username": username}
      )[0]["password"]
 
-     if bcrypt.hashpw(pw.encode('utf8'), hashed_pw.encode('utf8')) == hashed_pw:
+     if bcrypt.hashpw(pw.encode('utf8'), hashed_pw) == hashed_pw:
          return True
      else:
          return False
@@ -108,7 +108,7 @@ class Classify(Resource):
             proc = subprocess.Popen('python classify_image.py --model_dir=. --image_file=./temp.jpg',shell=True)
             proc.communicate()[0]
             proc.wait()
-            with open("text.txt") as g:
+            with open("text.txt", "r") as g:
                 resp = json.load(g)
 
 
